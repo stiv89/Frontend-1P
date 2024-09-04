@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataSharingService } from '../services/data-sharing.service';
+import { Router } from '@angular/router';  // Importa Router para la redirección
 
 interface Producto {
   idProducto: number;
@@ -29,7 +30,7 @@ export class ReservaTurnosComponent implements OnInit {
   productosDisponibles: Producto[] = [];
   productosSeleccionados: Producto[] = [];
 
-  constructor(private dataSharingService: DataSharingService) {}
+  constructor(private dataSharingService: DataSharingService, private router: Router) {}  // Inyectar el router
 
   ngOnInit(): void {
     // Inicializa las listas desde el servicio dentro de ngOnInit
@@ -94,5 +95,13 @@ export class ReservaTurnosComponent implements OnInit {
     existingTurnos.push(newTurno);
     localStorage.setItem('turnosAgendados', JSON.stringify(existingTurnos));
     console.log('Turno registrado y guardado en localStorage:', newTurno);
+
+    // Redirigir a la página de turnos agendados
+    this.router.navigate(['turnos-agendados']);
   }
+
+  volverATurnosAgendados(): void {
+    this.router.navigate(['turnos-agendados']);
+  }
+  
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';  // Importa el Router
 import { DataSharingService, Proveedor, Producto } from '../services/data-sharing.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -7,8 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-admin',
   standalone: true,
   templateUrl: './admin.component.html',
-  imports: [FormsModule, CommonModule],  // Importa FormsModule y CommonModule
-
+  imports: [FormsModule, CommonModule],
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
@@ -19,33 +19,61 @@ export class AdminComponent implements OnInit {
   nuevoProductoNombre: string = '';
   nuevoProductoCantidad!: number;
 
-  constructor(private dataSharingService: DataSharingService) { }
+  // Controlar la visibilidad de los modales
+  showModalProveedores = false;
+  showModalJaulas = false;
+
+  proveedorSeleccionado: Proveedor | null = null;  // Proveedor seleccionado para editar
+  productosSeleccionados: Producto[] = [];  // Productos del proveedor seleccionado
+
+  constructor(private dataSharingService: DataSharingService, private router: Router) {}  // Inyecta el Router
 
   ngOnInit(): void {
     this.cargarDatos();
+  }
+
+  openModal(modal: string): void {
+    if (modal === 'proveedores') {
+      this.showModalProveedores = true;
+    } else if (modal === 'jaulas') {
+      this.showModalJaulas = true;
+    }
+  }
+
+  closeModal(modal: string): void {
+    if (modal === 'proveedores') {
+      this.showModalProveedores = false;
+      this.proveedorSeleccionado = null;
+      this.productosSeleccionados = [];
+    } else if (modal === 'jaulas') {
+      this.showModalJaulas = false;
+    }
   }
 
   cargarDatos(): void {
     this.proveedores = this.dataSharingService.getProveedores();
     this.jaulas = this.dataSharingService.getJaulas();
   
-    // Verifica qué datos están siendo cargados
     console.log('Proveedores cargados:', this.proveedores);
     console.log('Jaulas cargadas:', this.jaulas);
   }
   
-
   /*** Proveedores ***/
   addProveedor(): void {
     if (this.nuevoProveedorNombre.trim()) {
       const nuevoProveedor: Proveedor = {
-        idProveedor: Date.now(), // Generar un ID único
+        idProveedor: Date.now(),
         nombre: this.nuevoProveedorNombre.trim()
       };
       this.dataSharingService.addProveedor(nuevoProveedor);
       this.nuevoProveedorNombre = '';
       this.cargarDatos();
     }
+  }
+
+  selectProveedor(proveedor: Proveedor): void {
+    this.proveedorSeleccionado = proveedor;
+    this.productosSeleccionados = this.dataSharingService.getProductosPorProveedor(proveedor.idProveedor);
   }
 
   editProveedor(proveedor: Proveedor): void {
@@ -64,6 +92,43 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  /*** Productos ***/
+  getProductosPorProveedor(idProveedor: number): Producto[] {
+    return this.dataSharingService.getProductosPorProveedor(idProveedor);
+  }
+
+  addProducto(idProveedor: number): void {
+    if (this.nuevoProductoNombre.trim() && this.nuevoProductoCantidad != null) {
+      const nuevoProducto: Producto = {
+        idProducto: Date.now(),
+        nombre: this.nuevoProductoNombre.trim(),
+        cantidad: this.nuevoProductoCantidad
+      };
+      this.dataSharingService.addProducto(idProveedor, nuevoProducto);
+      this.nuevoProductoNombre = '';
+      this.nuevoProductoCantidad = null!;
+      this.selectProveedor(this.proveedorSeleccionado!);  // Refrescar los productos del proveedor
+    }
+  }
+
+  editProducto(idProveedor: number, producto: Producto): void {
+    const nuevoNombre = prompt('Ingrese el nuevo nombre del producto:', producto.nombre);
+    const nuevaCantidad = prompt('Ingrese la nueva cantidad del producto:', producto.cantidad.toString());
+
+    if (nuevoNombre !== null && nuevoNombre.trim() && nuevaCantidad !== null && !isNaN(Number(nuevaCantidad))) {
+      producto.nombre = nuevoNombre.trim();
+      producto.cantidad = Number(nuevaCantidad);
+      this.dataSharingService.updateProducto(idProveedor, producto);
+      this.selectProveedor(this.proveedorSeleccionado!);  // Refrescar los productos del proveedor
+    }
+  }
+
+  deleteProducto(idProveedor: number, idProducto: number): void {
+    if (confirm('¿Está seguro de que desea eliminar este producto?')) {
+      this.dataSharingService.deleteProducto(idProveedor, idProducto);
+      this.selectProveedor(this.proveedorSeleccionado!);  // Refrescar los productos del proveedor
+    }
+  }
   /*** Jaulas ***/
   addJaula(): void {
     if (this.nuevaJaula) {
@@ -80,41 +145,9 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  /*** Productos ***/
-  getProductosPorProveedor(idProveedor: number): Producto[] {
-    return this.dataSharingService.getProductosPorProveedor(idProveedor);
+  volverATurnosAgendados(): void {
+    this.router.navigate(['turnos-agendados']);  // Redirigir a la página de turnos agendados
   }
 
-  addProducto(idProveedor: number): void {
-    if (this.nuevoProductoNombre.trim() && this.nuevoProductoCantidad != null) {
-      const nuevoProducto: Producto = {
-        idProducto: Date.now(), // Generar un ID único
-        nombre: this.nuevoProductoNombre.trim(),
-        cantidad: this.nuevoProductoCantidad
-      };
-      this.dataSharingService.addProducto(idProveedor, nuevoProducto);
-      this.nuevoProductoNombre = '';
-      this.nuevoProductoCantidad = null!;
-      this.cargarDatos();
-    }
-  }
 
-  editProducto(idProveedor: number, producto: Producto): void {
-    const nuevoNombre = prompt('Ingrese el nuevo nombre del producto:', producto.nombre);
-    const nuevaCantidad = prompt('Ingrese la nueva cantidad del producto:', producto.cantidad.toString());
-
-    if (nuevoNombre !== null && nuevoNombre.trim() && nuevaCantidad !== null && !isNaN(Number(nuevaCantidad))) {
-      producto.nombre = nuevoNombre.trim();
-      producto.cantidad = Number(nuevaCantidad);
-      this.dataSharingService.updateProducto(idProveedor, producto);
-      this.cargarDatos();
-    }
-  }
-
-  deleteProducto(idProveedor: number, idProducto: number): void {
-    if (confirm('¿Está seguro de que desea eliminar este producto?')) {
-      this.dataSharingService.deleteProducto(idProveedor, idProducto);
-      this.cargarDatos();
-    }
-  }
 }

@@ -1,6 +1,7 @@
 <div class="container">
   <h2 class="title">Reserva de Turnos de Recepción</h2>
 
+
   <form (ngSubmit)="registrarTurno()" class="form">
     <div class="form-group">
       <label for="fecha">Fecha:</label>
@@ -53,7 +54,10 @@
         {{ producto.nombre }} - Cantidad: {{ producto.cantidad }}
       </li>
     </ul>
-
+  <!-- Botón para volver a Turnos Agendados -->
+  <div class="button-group">
+    <button type="button" class="back-button" (click)="volverATurnosAgendados()">Volver a Turnos Agendados</button>
     <button type="submit" class="submit-button">Registrar Turno</button>
+  </div>
   </form>
 </div>

@@ -1,55 +1,69 @@
 <div class="container">
   <h2>Administración de Datos</h2>
 
-  <!-- Proveedores -->
+  <!-- Botones para abrir modales -->
   <section class="grid-section">
     <div>
+      <button class="back-button" (click)="volverATurnosAgendados()">Volver a Turnos Agendados</button>
+      <button class="open-modal-btn" (click)="openModal('proveedores')">Gestionar Proveedores</button>
+      <button class="open-modal-btn" (click)="openModal('jaulas')">Gestionar Jaulas</button>
+    </div>
+  </section>
+
+  <!-- Modal para Proveedores -->
+  <div id="proveedoresModal" class="modal" [class.active]="showModalProveedores">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal('proveedores')">&times;</span>
       <h3>Proveedores</h3>
+  
+      <!-- Formulario para agregar proveedor -->
       <input [(ngModel)]="nuevoProveedorNombre" name="nuevoProveedorNombre" placeholder="Nombre del proveedor">
       <button (click)="addProveedor()">Agregar Proveedor</button>
-    </div>
-    <ul>
-      <li *ngFor="let proveedor of proveedores">
-        {{ proveedor.nombre }}
-        <div>
-          <button class="edit-btn" (click)="editProveedor(proveedor)">Editar</button>
-          <button class="delete-btn" (click)="deleteProveedor(proveedor.idProveedor)">Eliminar</button>
-        </div>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Jaulas -->
-  <section class="grid-section">
-    <div>
-      <h3>Jaulas</h3>
-      <input [(ngModel)]="nuevaJaula" name="nuevaJaula" placeholder="Número de Jaula" type="number">
-      <button (click)="addJaula()">Agregar Jaula</button>
-    </div>
-    <ul>
-      <li *ngFor="let jaula of jaulas">
-        {{ jaula }}
-        <button class="delete-btn" (click)="deleteJaula(jaula)">Eliminar</button>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Productos por Proveedor -->
-  <section class="full-width-section">
-    <div *ngFor="let proveedor of proveedores" class="producto-section">
-      <h4>{{ proveedor.nombre }}</h4>
+  
       <ul>
-        <li *ngFor="let producto of getProductosPorProveedor(proveedor.idProveedor)">
-          {{ producto.nombre }} - Cantidad: {{ producto.cantidad }}
+        <li *ngFor="let proveedor of proveedores">
+          {{ proveedor.nombre }}
           <div>
-            <button class="edit-btn" (click)="editProducto(proveedor.idProveedor, producto)">Editar</button>
-            <button class="delete-btn" (click)="deleteProducto(proveedor.idProveedor, producto.idProducto)">Eliminar</button>
+            <button class="edit-btn" (click)="selectProveedor(proveedor)">Editar</button>
+            <button class="delete-btn" (click)="deleteProveedor(proveedor.idProveedor)">Eliminar</button>
           </div>
         </li>
       </ul>
-      <input [(ngModel)]="nuevoProductoNombre" name="nuevoProductoNombre" placeholder="Nombre del Producto">
-      <input [(ngModel)]="nuevoProductoCantidad" name="nuevoProductoCantidad" placeholder="Cantidad del Producto" type="number">
-      <button (click)="addProducto(proveedor.idProveedor)">Agregar Producto</button>
+  
+      <!-- Sección para editar productos del proveedor seleccionado -->
+      <div *ngIf="proveedorSeleccionado">
+        <h4>Productos de {{ proveedorSeleccionado.nombre }}</h4>
+        <ul>
+          <li *ngFor="let producto of productosSeleccionados">
+            {{ producto.nombre }} - Cantidad: {{ producto.cantidad }}
+            <div>
+              <button class="edit-btn" (click)="editProducto(proveedorSeleccionado.idProveedor, producto)">Editar</button>
+              <button class="delete-btn" (click)="deleteProducto(proveedorSeleccionado.idProveedor, producto.idProducto)">Eliminar</button>
+            </div>
+          </li>
+        </ul>
+  
+        <!-- Formulario para agregar productos al proveedor seleccionado -->
+        <input [(ngModel)]="nuevoProductoNombre" name="nuevoProductoNombre" placeholder="Nombre del Producto">
+        <input [(ngModel)]="nuevoProductoCantidad" name="nuevoProductoCantidad" placeholder="Cantidad del Producto" type="number">
+        <button (click)="addProducto(proveedorSeleccionado.idProveedor)">Agregar Producto</button>
+      </div>
     </div>
-  </section>
+  </div>
+  
+  <!-- Modal para Jaulas -->
+  <div id="jaulasModal" class="modal" [class.active]="showModalJaulas">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal('jaulas')">&times;</span>
+      <h3>Jaulas</h3>
+      <input [(ngModel)]="nuevaJaula" name="nuevaJaula" placeholder="Número de Jaula" type="number">
+      <button (click)="addJaula()">Agregar Jaula</button>
+      <ul>
+        <li *ngFor="let jaula of jaulas">
+          {{ jaula }}
+          <button class="delete-btn" (click)="deleteJaula(jaula)">Eliminar</button>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

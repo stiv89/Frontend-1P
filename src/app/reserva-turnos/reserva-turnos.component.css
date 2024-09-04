@@ -96,6 +96,13 @@
   color: #343A40;
 }
 
+.button-group {
+  display: flex;
+  justify-content: space-between;  /* Distribuir botones */
+  margin-top: 20px;
+}
+
+.back-button,
 .submit-button {
   padding: 10px 20px;
   background-color: #495057;
@@ -103,11 +110,10 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 20px;
-  align-self: center;
   transition: background-color 0.3s;
 }
 
+.back-button:hover,
 .submit-button:hover {
   background-color: #CED4DA;
 }

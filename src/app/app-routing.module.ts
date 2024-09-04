@@ -9,14 +9,16 @@ import { AdminComponent } from './admin/admin.component';  // Importa el compone
 
 
 const routes: Routes = [
-  { path: 'admin', component: AdminComponent },  // Añade esta línea para la ruta del componente Admin
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'productos', component: ProductosComponent },
   { path: 'jaulas', component: JaulasComponent },
   { path: 'turnos-agendados', component: TurnosAgendadosComponent },
-  { path: 'reserva-turnos', component: ReservaTurnosComponent },  // Agrega la nueva ruta
+  { path: 'reserva-turnos', component: ReservaTurnosComponent },  // Ruta independiente
+  { path: 'admin', component: AdminComponent },
   { path: '', redirectTo: '/turnos-agendados', pathMatch: 'full' }
 ];
+
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,7 +1,7 @@
 <h2>Gestión de Turnos Agendados</h2>
 
 <div class="form-group">
-  <button (click)="abrirReservaTurnos()" class="btn-primary">Registrar Turno</button>
+<button (click)="abrirReservaTurnos()">Registrar Turno</button>
   <form (ngSubmit)="filtrar()" class="filter-form">
     <label for="fecha">Fecha:</label>
     <input id="fecha" type="date" [(ngModel)]="selectedDate" name="fecha">
@@ -26,7 +26,7 @@
 
     <button type="submit">Filtrar</button>
   </form>
-  <button (click)="irAAdmin()" class="btn-secondary">Gestionar datos</button> <!-- Nuevo botón agregado -->
+  <button (click)="irAAdmin()">Gestionar Datos</button>
 
 </div>
 
@@ -82,4 +82,5 @@
     </li>
   </ul>
   <button (click)="cerrarDetallesPopup()">Cerrar</button>
+  <router-outlet></router-outlet>
 </div>
