@@ -1,0 +1,24 @@
+<h2>Gestión de Productos</h2>
+
+<form (ngSubmit)="addProducto()">
+  <label for="nombre">Nombre:</label>
+  <input id="nombre" [(ngModel)]="productoForm.nombre" name="nombre" required>
+
+  <label for="descripcion">Descripción:</label>
+  <input id="descripcion" [(ngModel)]="productoForm.descripcion" name="descripcion" required>
+
+  <label for="precio">Precio:</label>
+  <input id="precio" type="number" [(ngModel)]="productoForm.precio" name="precio" required>
+
+  <button type="submit">{{ editando ? 'Actualizar Producto' : 'Agregar Producto' }}</button>
+  <button type="button" *ngIf="editando" (click)="cancelarEdicion()">Cancelar Edición</button>
+</form>
+
+<ul>
+  <li *ngFor="let producto of productos">
+    {{ producto.nombre }} - {{ producto.descripcion }} - {{ producto.precio | currency }}
+    <button (click)="editarProducto(producto)">Editar</button>
+    <button (click)="deleteProducto(producto.id)">Eliminar</button>
+  </li>
+</ul>
+

@@ -1,0 +1,147 @@
+/* General Styles */
+body {
+  background-color: #F8F9FA;
+  color: #343A40;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Header */
+h2 {
+  text-align: center;
+  color: #343A40;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.form-group label {
+  margin-right: 10px;
+  color: #343A40;
+}
+
+.form-group input[type="date"],
+.form-group select,
+.form-group button {
+  margin-right: 15px;
+}
+
+.form-group select {
+  min-width: 150px;
+  padding: 8px;
+  border: 1px solid #DEE2E6;
+  border-radius: 4px;
+  color: #343A40;
+  background-color: #F8F9FA;
+}
+
+.filter-form {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+/* Buttons */
+button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #495057;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Arial', sans-serif;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #CED4DA;
+}
+
+.btn-primary {
+  background-color: #495057;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #868E96;
+  color: white;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+  background-color: #CED4DA;
+}
+
+/* Table Styles */
+table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  background-color: #F8F9FA;
+}
+
+thead {
+  background-color: #495057;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #DEE2E6;
+  color: #343A40;
+}
+
+tr:hover {
+  background-color: #CED4DA;
+}
+
+th {
+  color: white;
+  font-weight: normal;
+}
+
+/* Popup Styles */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-radius: 8px;
+  width: 300px;
+  max-width: 90%;
+}
+
+.popup h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #343A40;
+}
+
+.popup button {
+  margin-top: 10px;
+  width: 100%;
+  background-color: #495057;
+}
+
+.popup button:hover {
+  background-color: #CED4DA;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #DEE2E6;
+  border-radius: 4px;
+  font-family: 'Arial', sans-serif;
+}

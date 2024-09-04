@@ -1,0 +1,85 @@
+<h2>Gestión de Turnos Agendados</h2>
+
+<div class="form-group">
+  <button (click)="abrirReservaTurnos()" class="btn-primary">Registrar Turno</button>
+  <form (ngSubmit)="filtrar()" class="filter-form">
+    <label for="fecha">Fecha:</label>
+    <input id="fecha" type="date" [(ngModel)]="selectedDate" name="fecha">
+
+    <label for="proveedor">Proveedor:</label>
+    <select id="proveedor" [(ngModel)]="selectedProveedor" name="proveedor" (change)="actualizarProductosDisponibles()">
+        <option value="">Todos</option>
+        <option *ngFor="let proveedor of proveedores" [value]="proveedor.nombre">{{ proveedor.nombre }}</option>
+    </select>
+
+    <label for="productos">Productos:</label>
+    <select id="productos" [(ngModel)]="selectedProducto" name="producto">
+        <option value="">Todos</option>
+        <option *ngFor="let producto of productosDisponibles" [value]="producto.nombre">{{ producto.nombre }}</option>
+    </select>
+
+    <label for="jaula">Jaula:</label>
+    <select id="jaula" [(ngModel)]="selectedJaula" name="jaula">
+        <option value="">Todas</option>
+        <option *ngFor="let jaula of jaulasDisponibles" [value]="jaula">{{ jaula }}</option>
+    </select>
+
+    <button type="submit">Filtrar</button>
+  </form>
+  <button (click)="irAAdmin()" class="btn-secondary">Gestionar datos</button> <!-- Nuevo botón agregado -->
+
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Inicio Agendamiento</th>
+      <th>Fin Agendamiento</th>
+      <th>Proveedor</th>
+      <th>Estado</th>
+      <th>Jaula</th>
+      <th>Inicio Recepción</th>
+      <th>Fin Recepción</th>
+      <th>Acciones</th>
+      <th>Detalles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let turno of filteredTurnos">
+      <td>{{ turno.inicioAgendamiento }}</td>
+      <td>{{ turno.finAgendamiento }}</td>
+      <td>{{ turno.proveedor }}</td>
+      <td>{{ turno.estado }}</td>
+      <td>{{ turno.jaula || 'No asignada' }}</td>
+      <td>{{ turno.inicioRecepcion || 'No iniciado' }}</td>
+      <td>{{ turno.finRecepcion || 'No finalizado' }}</td>
+      <td>
+        <button *ngIf="turno.estado === 'pendiente'" (click)="abrirJaulaPopup(turno)">Iniciar Recepción</button>
+        <button *ngIf="turno.estado === 'en recepcion'" (click)="finalizarRecepcion(turno)">Finalizar Recepción</button>
+      </td>
+      <td><button (click)="verDetalles(turno)">Ver Detalles</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Popup para seleccionar la jaula -->
+<div *ngIf="showJaulaPopup && turnoSeleccionado" class="popup">
+  <h3>Seleccionar Jaula</h3>
+  <select [(ngModel)]="turnoSeleccionado!.jaula">
+    <option *ngFor="let jaula of jaulasDisponibles" [value]="jaula">{{ jaula }}</option>
+  </select>
+  <button (click)="seleccionarJaula(turnoSeleccionado!.jaula || '')">Aceptar</button>
+  <button (click)="cerrarJaulaPopup()">Cancelar</button>
+</div>
+
+<!-- Popup para ver detalles del turno -->
+<div *ngIf="showDetallesPopup" class="popup">
+  <h3>Detalles del Turno</h3>
+  <p>Productos asociados al turno:</p>
+  <ul>
+    <li *ngFor="let producto of turnoSeleccionado?.productos">
+      {{ producto.nombre }} - Cantidad: {{ producto.cantidad }}
+    </li>
+  </ul>
+  <button (click)="cerrarDetallesPopup()">Cerrar</button>
+</div>

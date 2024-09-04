@@ -1,0 +1,28 @@
+<h2>Gestión de Proveedores</h2>
+
+<form (ngSubmit)="addProveedor()">
+  <label for="nombre">Nombre:</label>
+  <input id="nombre" [(ngModel)]="proveedorForm.nombre" name="nombre" required>
+
+  <label for="direccion">Dirección:</label>
+  <input id="direccion" [(ngModel)]="proveedorForm.direccion" name="direccion" required>
+
+  <label for="telefono">Teléfono:</label>
+  <input id="telefono" [(ngModel)]="proveedorForm.telefono" name="telefono" required>
+
+  <label for="email">Email:</label>
+  <input id="email" [(ngModel)]="proveedorForm.email" name="email" required>
+
+  <button type="submit">{{ editando ? 'Actualizar Proveedor' : 'Agregar Proveedor' }}</button>
+  <button type="button" *ngIf="editando" (click)="cancelarEdicion()">Cancelar Edición</button>
+</form>
+
+<ul>
+  <li *ngFor="let proveedor of proveedores">
+    {{ proveedor.nombre }} - {{ proveedor.direccion }} - {{ proveedor.telefono }} - {{ proveedor.email }}
+    <button (click)="editarProveedor(proveedor)">Editar</button>
+    <button (click)="deleteProveedor(proveedor.id)">Eliminar</button>
+  </li>
+</ul>
+
+

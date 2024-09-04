@@ -1,0 +1,59 @@
+<div class="container">
+  <h2 class="title">Reserva de Turnos de Recepción</h2>
+
+  <form (ngSubmit)="registrarTurno()" class="form">
+    <div class="form-group">
+      <label for="fecha">Fecha:</label>
+      <input id="fecha" type="date" [(ngModel)]="reservaForm.fecha" name="fecha" required>
+    </div>
+
+    <div class="form-group">
+      <label for="horaInicioAgendamiento">Hora de Inicio:</label>
+      <select id="horaInicioAgendamiento" [(ngModel)]="reservaForm.horaInicioAgendamiento" name="horaInicioAgendamiento" required>
+        <option value="" disabled selected>Selecciona una hora</option>
+        <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="horaFinAgendamiento">Hora de Fin:</label>
+      <select id="horaFinAgendamiento" [(ngModel)]="reservaForm.horaFinAgendamiento" name="horaFinAgendamiento" required>
+        <option value="" disabled selected>Selecciona una hora</option>
+        <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="proveedor">Proveedor:</label>
+      <select id="proveedor" [(ngModel)]="reservaForm.idProveedor" name="idProveedor" (change)="actualizarProductosDisponibles()" required>
+        <option value="" disabled selected>Selecciona un proveedor</option>
+        <option *ngFor="let proveedor of proveedores" [value]="proveedor.idProveedor">{{ proveedor.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="jaula">Jaula:</label>
+      <select id="jaula" [(ngModel)]="reservaForm.idJaula" name="idJaula">
+        <option value="" selected>Sin jaula</option>
+        <option *ngFor="let jaula of jaulas" [value]="jaula">{{ jaula }}</option>
+      </select>
+    </div>
+
+    <h3>Agregar Productos</h3>
+    <div *ngFor="let producto of productosDisponibles" class="product-group">
+      <label>{{ producto.nombre }}:</label>
+      <button type="button" class="btn btn-decrement" (click)="decrementarCantidad(producto.idProducto)">-</button>
+      <span>{{ producto.cantidad }}</span>
+      <button type="button" class="btn btn-increment" (click)="incrementarCantidad(producto.idProducto)">+</button>
+    </div>
+
+    <h3>Productos Seleccionados</h3>
+    <ul class="product-list">
+      <li *ngFor="let producto of productosSeleccionados">
+        {{ producto.nombre }} - Cantidad: {{ producto.cantidad }}
+      </li>
+    </ul>
+
+    <button type="submit" class="submit-button">Registrar Turno</button>
+  </form>
+</div>

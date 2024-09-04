@@ -1,0 +1,24 @@
+<h2>Gestión de Jaulas</h2>
+
+<form (ngSubmit)="addJaula()">
+  <label for="codigo">Código:</label>
+  <input id="codigo" [(ngModel)]="jaulaForm.codigo" name="codigo" required>
+
+  <label for="ubicacion">Ubicación:</label>
+  <input id="ubicacion" [(ngModel)]="jaulaForm.ubicacion" name="ubicacion" required>
+
+  <label for="capacidad">Capacidad:</label>
+  <input id="capacidad" type="number" [(ngModel)]="jaulaForm.capacidad" name="capacidad" required>
+
+  <button type="submit">{{ editando ? 'Actualizar Jaula' : 'Agregar Jaula' }}</button>
+  <button type="button" *ngIf="editando" (click)="cancelarEdicion()">Cancelar Edición</button>
+</form>
+
+<ul>
+  <li *ngFor="let jaula of jaulas">
+    {{ jaula.codigo }} - {{ jaula.ubicacion }} - Capacidad: {{ jaula.capacidad }}
+    <button (click)="editarJaula(jaula)">Editar</button>
+    <button (click)="deleteJaula(jaula.id)">Eliminar</button>
+  </li>
+</ul>
+
