@@ -103,7 +103,13 @@ export class DataSharingService {
       this.saveData();
     }
   }
-
+  updateJaula(oldJaula: number, newJaula: number): void {
+    const index = this.jaulas.findIndex(j => j === oldJaula);
+    if (index !== -1) {
+      this.jaulas[index] = newJaula;
+    }
+  }
+  
   deleteJaula(jaulaNumber: number): void {
     this.jaulas = this.jaulas.filter(j => j !== jaulaNumber);
     this.saveData();

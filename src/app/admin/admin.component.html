@@ -51,19 +51,25 @@
     </div>
   </div>
   
-  <!-- Modal para Jaulas -->
-  <div id="jaulasModal" class="modal" [class.active]="showModalJaulas">
-    <div class="modal-content">
-      <span class="close" (click)="closeModal('jaulas')">&times;</span>
-      <h3>Jaulas</h3>
-      <input [(ngModel)]="nuevaJaula" name="nuevaJaula" placeholder="Número de Jaula" type="number">
-      <button (click)="addJaula()">Agregar Jaula</button>
-      <ul>
-        <li *ngFor="let jaula of jaulas">
-          {{ jaula }}
+<!-- Modal para Jaulas -->
+<div id="jaulasModal" class="modal" [class.active]="showModalJaulas">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal('jaulas')">&times;</span>
+    <h3>Jaulas</h3>
+
+    <!-- Formulario para agregar jaula -->
+    <input [(ngModel)]="nuevaJaula" name="nuevaJaula" placeholder="Número de Jaula" type="number">
+    <button (click)="addJaula()">Agregar Jaula</button>
+
+    <!-- Lista de jaulas con botones de editar y eliminar -->
+    <ul>
+      <li *ngFor="let jaula of jaulas">
+        {{ jaula }}
+        <div>
+          <button class="edit-btn" (click)="editJaula(jaula)">Editar</button>
           <button class="delete-btn" (click)="deleteJaula(jaula)">Eliminar</button>
-        </li>
-      </ul>
-    </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>

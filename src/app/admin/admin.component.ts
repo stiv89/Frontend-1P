@@ -137,7 +137,14 @@ export class AdminComponent implements OnInit {
       this.cargarDatos();
     }
   }
-
+  editJaula(jaulaNumber: number): void {
+    const nuevoNumero = prompt('Ingrese el nuevo número de jaula:', jaulaNumber.toString());
+    
+    if (nuevoNumero !== null && !isNaN(Number(nuevoNumero)) && Number(nuevoNumero) > 0) {
+      this.dataSharingService.updateJaula(jaulaNumber, Number(nuevoNumero));
+      this.cargarDatos(); // Refrescar la lista de jaulas
+    }
+  }
   deleteJaula(jaulaNumber: number): void {
     if (confirm(`¿Está seguro de que desea eliminar la jaula número ${jaulaNumber}?`)) {
       this.dataSharingService.deleteJaula(jaulaNumber);
