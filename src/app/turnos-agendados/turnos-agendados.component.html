@@ -1,6 +1,7 @@
 <h2>Gestión de Turnos Agendados</h2>
 
 <div class="form-group">
+<button class="btn-logout" (click)="cerrarSesion()">Cerrar Sesión</button> <!-- Botón de Cerrar Sesión -->
 <button (click)="abrirReservaTurnos()">Registrar Turno</button>
   <form (ngSubmit)="filtrar()" class="filter-form">
     <label for="fecha">Fecha:</label>

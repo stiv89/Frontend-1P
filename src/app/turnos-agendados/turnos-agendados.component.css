@@ -145,3 +145,17 @@ select {
   border-radius: 4px;
   font-family: 'Arial', sans-serif;
 }
+.btn-logout {
+  background-color: #dc3545;  /* Color rojo para cerrar sesión */
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Arial', sans-serif;
+  margin-right: 15px;
+}
+
+.btn-logout:hover {
+  background-color: #c82333;  /* Un rojo más oscuro en hover */
+}

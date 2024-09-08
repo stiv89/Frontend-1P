@@ -6,16 +6,18 @@ import { JaulasComponent } from './jaulas/jaulas.component';
 import { TurnosAgendadosComponent } from './turnos-agendados/turnos-agendados.component';
 import { ReservaTurnosComponent } from './reserva-turnos/reserva-turnos.component';  // Importa el nuevo componente
 import { AdminComponent } from './admin/admin.component';  // Importa el componente Admin
+import { LoginComponent } from './auth/login/login.component';  // Importa el componente de Login
 
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },  // Ruta para el Login
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'productos', component: ProductosComponent },
   { path: 'jaulas', component: JaulasComponent },
   { path: 'turnos-agendados', component: TurnosAgendadosComponent },
-  { path: 'reserva-turnos', component: ReservaTurnosComponent },  // Ruta independiente
+  { path: 'reserva-turnos', component: ReservaTurnosComponent },
   { path: 'admin', component: AdminComponent },
-  { path: '', redirectTo: '/turnos-agendados', pathMatch: 'full' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },  // Cambiar la ruta por defecto a login
 ];
 
 

@@ -104,7 +104,10 @@ export class TurnosAgendadosComponent implements OnInit {
       this.productosDisponibles = [];
     }
   }
-
+  cerrarSesion() {
+    // Aquí puedes limpiar cualquier información de sesión si fuera necesario.
+    this.router.navigate(['/login']);  // Redirige a la página de login
+  }
   filtrar(): void {
     this.filteredTurnos = this.turnos.filter(turno => {
       return (
